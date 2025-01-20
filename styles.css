@@ -1,68 +1,109 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الزبائن - مصبنة مشاء الله</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1 class="decorated-title">مصبنة مشاء الله</h1>
-    </header>
-    <main>
-        <section id="main-content">
-            <section id="customer-options">
-                <h2>💡 اختر الخيار</h2>
-                <button onclick="showPage('new-customer')">👤 إدخال زبون جديد</button>
-                <button onclick="showPage('existing-customer')">📇 اختيار الزبون</button>
-            </section>
-            <section id="new-customer" style="display: none;">
-                <h2>إدخال زبون جديد</h2>
-                <label for="customer-name">اسم الزبون:</label>
-                <input type="text" id="customer-name" placeholder="أدخل اسم الزبون" required>
-                <label for="customer-phone">رقم الهاتف:</label>
-                <input type="text" id="customer-phone" placeholder="أدخل رقم الهاتف" required>
-                <button onclick="showCategories()">التالي</button>
-            </section>
-            <section id="existing-customer" style="display: none;">
-                <h2>اختيار الزبون</h2>
-                <!-- إضافة محتوى اختيار الزبون هنا -->
-            </section>
-            <section id="categories" style="display: none;">
-                <h2>اختر الفئة</h2>
-                <div class="category-list">
-                    <div class="category-item" onclick="showItems('women')">ملابس النساء</div>
-                    <div class="category-item" onclick="showItems('men')">ملابس الرجال</div>
-                    <div class="category-item" onclick="showItems('kids')">ملابس الأطفال</div>
-                    <div class="category-item" onclick="showItems('bedding')">الأفرشة</div>
-                    <div class="category-item" onclick="showItems('shoes')">الأحذية</div>
-                </div>
-            </section>
-            <section id="item-info" style="display: none;">
-                <h2>إدخال تفاصيل القطع</h2>
-                <label for="item-type">نوع القطعة:</label>
-                <select id="item-type" name="item-type" required>
-                    <!-- الخيارات ستتغير بناءً على الفئة المختارة -->
-                </select>
-                <label for="item-price">سعر القطعة:</label>
-                <input type="number" id="item-price" name="item-price" required>
-                <button onclick="addItem()">إضافة القطعة</button>
-                <button onclick="showSummary()">عرض الملخص</button>
-                <div id="items-list"></div>
-            </section>
-            <section id="summary" style="display: none;">
-                <h2>ملخص الطلب</h2>
-                <div id="summary-list"></div>
-                <div id="total-price"></div>
-                <button onclick="showPage('categories')">إضافة المزيد</button>
-            </section>
-            <section id="settings" style="display: none;">
-                <h2>الإعدادات</h2>
-                <p>هنا يمكنك تعديل إعدادات الموقع.</p>
-            </section>
-        </section>
-    </main>
-    <script src="script.js"></script>
-</body>
-</html>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
+
+body {
+    font-family: 'Cairo', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+}
+
+header {
+    background-color: #1f1f1f;
+    color: white;
+    padding: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.decorated-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: 2.5em;
+    color: #00e676;
+    background-color: #1f1f1f;
+    padding: 0.5em 1em;
+    border-radius: 10px;
+    text-shadow: 2px 2px #333;
+    transition: transform 0.3s;
+}
+
+.decorated-title:hover {
+    transform: scale(1.05);
+}
+
+main {
+    padding: 2em;
+}
+
+input {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border: 1px solid #555;
+    padding: 0.5em;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+button {
+    padding: 0.5em 1em;
+    background-color: #007bff; /* اللون الأزرق الرئيسي */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category-item {
+    background-color: #007bff; /* اللون الأزرق الرئيسي */
+    color: white;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.category-item:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+form {
+    margin: 1em 0;
+}
+
+label, input, select, button {
+    display: block;
+    margin: 0.5em 0;
+    width: 100%;
+}
+
+input, select {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    border: 1px solid #555;
+    padding: 0.5em;
+    border-radius: 5px;
+}
+
+#items-list, #summary-list, #total-price {
+    margin-top: 2em;
+    color: #ffffff;
+}
+
+#settings {
+    display: none;
+}
