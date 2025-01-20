@@ -3,86 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة الزبائن - مصبنة مشاء الله</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1 class="decorated-title">مصبنة مشاء الله</h1>
-    </header>
-    <main>
-        <section id="main-content">
-            <section id="customer-options">
-                <h2>💡 اختر الخيار</h2>
-                <button onclick="showPage('new-customer')">👤 إدخال زبون جديد</button>
-                <button onclick="showPage('existing-customer')">📇 اختيار الزبون</button>
-            </section>
-            <section id="new-customer" style="display: none;">
-                <h2>إدخال زبون جديد</h2>
-                <label for="customer-name">اسم الزبون:</label>
-                <input type="text" id="customer-name" placeholder="أدخل اسم الزبون" required>
-                <label for="customer-phone">رقم الهاتف:</label>
-                <input type="text" id="customer-phone" placeholder="أدخل رقم الهاتف" required>
-                <button onclick="showCategories()">التالي</button>
-            </section>
-            <section id="existing-customer" style="display: none;">
-                <h2>اختيار الزبون</h2>
-                <!-- إضافة محتوى اختيار الزبون هنا -->
-            </section>
-            <section id="categories" style="display: none;">
-                <h2>اختر الفئة</h2>
-                <div class="category-list">
-                    <div class="category-item" onclick="showItems('women')">ملابس النساء</div>
-                    <div class="category-item" onclick="showItems('men')">ملابس الرجال</div>
-                    <div class="category-item" onclick="showItems('kids')">ملابس الأطفال</div>
-                    <div class="category-item" onclick="showItems('bedding')">الأفرشة</div>
-                    <div class="category-item" onclick="showItems('shoes')">الأحذية</div>
-                </div>
-            </section>
-            <section id="item-info" style="display: none;">
-                <h2>إدخال تفاصيل القطع</h2>
-                <label for="item-type">نوع القطعة:</label>
-                <select id="item-type" name="item-type" required>
-                    <!-- الخيارات ستتغير بناءً على الفئة المختارة -->
-                </select>
-                <label for="item-price">سعر القطعة:</label>
-                <input type="number" id="item-price" name="item-price" required>
-                <button onclick="addItem()">إضافة القطعة</button>
-                <button onclick="showSummary()">عرض الملخص</button>
-                <div id="items-list"></div>
-            </section>
-            <section id="summary" style="display: none;">
-                <h2>ملخص الطلب</h2>
-                <div id="summary-list"></div>
-                <div id="total-price"></div>
-                <button onclick="showPage('categories')">إضافة المزيد</button>
-            </section>
-            <section id="settings" style="display: none;">
-                <h2>الإعدادات</h2>
-                <p>هنا يمكنك تعديل إعدادات الموقع.</p>
-            </section>
-        </section>
-    </main>
-    <script>
-        function showPage(pageId) {
-            const sections = document.querySelectorAll('main > section');
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
-            document.getElementById(pageId).style.display = 'block';
+    <title>إدارة الزبائن</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom right, #4a90e2, #0073e6);
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
         }
 
-        function showCategories() {
-            const customerName = document.getElementById('customer-name').value;
-            const customerPhone = document.getElementById('customer-phone').value;
-            if (customerName && customerPhone) {
-                localStorage.setItem('customerName', customerName);
-                localStorage.setItem('customerPhone', customerPhone);
-                showPage('categories');
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        input, button {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        input {
+            text-align: center;
+        }
+
+        button {
+            background-color: #0073e6;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+            transform: scale(1.05);
+        }
+
+        .customer-list {
+            margin-top: 20px;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .customer-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .customer-item button {
+            width: auto;
+            padding: 5px 10px;
+            font-size: 14px;
+            margin: 0;
+            background-color: red;
+            transition: background-color 0.2s;
+        }
+
+        .customer-item button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>إدارة الزبائن 📋</h1>
+        <input type="text" id="newCustomer" placeholder="أدخل اسم الزبون الجديد">
+        <button onclick="addCustomer()">إضافة زبون جديد</button>
+        <div class="customer-list" id="customerList"></div>
+    </div>
+
+    <script>
+        // عرض قائمة الزبائن من localStorage
+        function loadCustomers() {
+            const customerList = document.getElementById("customerList");
+            const customers = JSON.parse(localStorage.getItem("customers")) || [];
+            customerList.innerHTML = "";
+
+            customers.forEach((customer, index) => {
+                const customerItem = document.createElement("div");
+                customerItem.className = "customer-item";
+                customerItem.innerHTML = `
+                    ${customer} 
+                    <button onclick="removeCustomer(${index})">حذف</button>
+                `;
+                customerList.appendChild(customerItem);
+            });
+        }
+
+        // إضافة زبون جديد
+        function addCustomer() {
+            const newCustomerInput = document.getElementById("newCustomer");
+            const customerName = newCustomerInput.value.trim();
+
+            if (customerName) {
+                const customers = JSON.parse(localStorage.getItem("customers")) || [];
+                customers.push(customerName);
+                localStorage.setItem("customers", JSON.stringify(customers));
+                newCustomerInput.value = "";
+                loadCustomers();
             } else {
-                alert('الرجاء إدخال جميع تفاصيل الزبون');
+                alert("يرجى إدخال اسم الزبون! ⚠️");
             }
         }
+
+        // حذف زبون من القائمة
+        function removeCustomer(index) {
+            const customers = JSON.parse(localStorage.getItem("customers")) || [];
+            customers.splice(index, 1);
+            localStorage.setItem("customers", JSON.stringify(customers));
+            loadCustomers();
+        }
+
+        // تحميل الزبائن عند فتح الصفحة
+        loadCustomers();
     </script>
 </body>
 </html>
