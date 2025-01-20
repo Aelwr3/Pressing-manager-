@@ -82,11 +82,19 @@
             padding: 5px 10px;
             font-size: 14px;
             margin: 0;
-            background-color: red;
+            background-color: #28a745;
             transition: background-color 0.2s;
         }
 
         .customer-item button:hover {
+            background-color: #218838;
+        }
+
+        .delete-btn {
+            background-color: red;
+        }
+
+        .delete-btn:hover {
             background-color: darkred;
         }
     </style>
@@ -111,7 +119,8 @@
                 customerItem.className = "customer-item";
                 customerItem.innerHTML = `
                     ${customer} 
-                    <button onclick="removeCustomer(${index})">حذف</button>
+                    <button onclick="selectCustomer('${customer}')">اختيار</button>
+                    <button class="delete-btn" onclick="removeCustomer(${index})">حذف</button>
                 `;
                 customerList.appendChild(customerItem);
             });
@@ -139,6 +148,12 @@
             customers.splice(index, 1);
             localStorage.setItem("customers", JSON.stringify(customers));
             loadCustomers();
+        }
+
+        // اختيار زبون والانتقال إلى الصفحة الموالية
+        function selectCustomer(customer) {
+            localStorage.setItem("selectedCustomer", customer);
+            window.location.href = "next-page.html"; // اسم الصفحة الموالية
         }
 
         // تحميل الزبائن عند فتح الصفحة
