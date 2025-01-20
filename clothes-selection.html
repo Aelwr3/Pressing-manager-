@@ -18,31 +18,38 @@
             background-color: #1d4ed8;
             color: white;
             padding: 15px;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid #2563eb;
         }
 
         .categories {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
         }
 
         .category {
-            padding: 10px 15px;
+            padding: 12px 18px;
             background-color: #3b82f6;
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
             transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .category:hover {
             background-color: #2563eb;
+            transform: scale(1.1);
+        }
+
+        .category:active {
             transform: scale(1.05);
         }
 
@@ -60,14 +67,15 @@
             border: 1px solid #d1d5db;
             border-radius: 8px;
             padding: 10px;
-            width: 140px;
+            width: 180px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
 
         .item button {
@@ -75,7 +83,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 5px 10px;
+            padding: 8px 12px;
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.3s ease;
@@ -86,14 +94,16 @@
         }
 
         .total {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 25px;
+            color: #1d4ed8;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .save-button {
-            margin-top: 20px;
-            padding: 10px 20px;
+            margin-top: 30px;
+            padding: 12px 25px;
             background-color: #ef4444;
             color: white;
             border: none;
@@ -107,25 +117,33 @@
             background-color: #dc2626;
             transform: scale(1.05);
         }
+
+        .save-button:active {
+            transform: scale(1.02);
+        }
+
+        .emoji {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
-    <header>اختيار الملابس</header>
+    <header>اختيار الملابس <span class="emoji">👚👕🧥</span></header>
 
     <div class="categories">
-        <button class="category" onclick="showCategory('رجال')">رجال</button>
-        <button class="category" onclick="showCategory('نساء')">نساء</button>
-        <button class="category" onclick="showCategory('أطفال')">أطفال</button>
-        <button class="category" onclick="showCategory('أفرشة')">أفرشة</button>
-        <button class="category" onclick="showCategory('أحذية')">أحذية</button>
+        <button class="category" onclick="showCategory('رجال')">رجال 👨‍🦰</button>
+        <button class="category" onclick="showCategory('نساء')">نساء 👩‍🦰</button>
+        <button class="category" onclick="showCategory('أطفال')">أطفال 👶</button>
+        <button class="category" onclick="showCategory('أفرشة')">أفرشة 🛏️</button>
+        <button class="category" onclick="showCategory('أحذية')">أحذية 👞👟</button>
     </div>
 
     <div class="items" id="items"></div>
 
-    <div class="total" id="totalAmount">المجموع: 0 درهم</div>
+    <div class="total" id="totalAmount">المجموع: 0 درهم 🏷️</div>
 
     <div>
-        <button class="save-button" onclick="saveClothes()">حفظ</button>
+        <button class="save-button" onclick="saveClothes()">حفظ الملابس 📝</button>
     </div>
 
     <script>
@@ -210,27 +228,12 @@
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "item";
                 itemDiv.innerHTML = `
-                    <p>${cloth.name}</p>
-                    <p>السعر: ${cloth.price} درهم</p>
-                    <button onclick="addCloth({name: '${cloth.name}', price: ${cloth.price}})">إضافة</button>
+                    <p>${cloth.name} 🧥</p>
+                    <p>السعر: ${cloth.price} درهم 💸</p>
+                    <button onclick="addCloth({name: '${cloth.name}', price: ${cloth.price}})">إضافة 🛒</button>
                 `;
                 itemsDiv.appendChild(itemDiv);
             });
         }
 
-        function addCloth(cloth) {
-            totalAmount += cloth.price;
-            document.getElementById('totalAmount').textContent = `المجموع: ${totalAmount} درهم`;
-        }
-
-        function saveClothes() {
-            alert("تم حفظ الملابس بنجاح!");
-            // هنا يمكن إضافة الكود لحفظ البيانات في localStorage أو قاعدة بيانات.
-        }
-
-        window.onload = function() {
-            showCategory('رجال');
-        };
-    </script>
-</body>
-  </html>
+        function addCloth
