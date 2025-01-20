@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختيار الملابس</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+
+        header {
+            background-color: #1d4ed8;
+            color: white;
+            padding: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .category {
+            padding: 10px 15px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .category:hover {
+            background-color: #2563eb;
+            transform: scale(1.05);
+        }
+
+        .items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 10px;
+        }
+
+        .item {
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px;
+            width: 140px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .item:hover {
+            transform: translateY(-5px);
+        }
+
+        .item button {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .item button:hover {
+            background-color: #16a34a;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .save-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .save-button:hover {
+            background-color: #dc2626;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>اختيار الملابس</header>
+
+    <div class="categories">
+        <button class="category" onclick="showCategory('رجال')">رجال</button>
+        <button class="category" onclick="showCategory('نساء')">نساء</button>
+        <button class="category" onclick="showCategory('أطفال')">أطفال</button>
+        <button class="category" onclick="showCategory('أفرشة')">أفرشة</button>
+        <button class="category" onclick="showCategory('أحذية')">أحذية</button>
+    </div>
+
+    <div class="items" id="items"></div>
+
+    <div class="total" id="totalAmount">المجموع: 0 درهم</div>
+
+    <div>
+        <button class="save-button" onclick="saveClothes()">حفظ</button>
+    </div>
+
+    <script>
+        const categories = {
+            "رجال": [
+                { name: "قميجة", price: 50 },
+                { name: "تيشرت", price: 30 },
+                { name: "تريكو", price: 70 },
+                { name: "جلالة", price: 90 },
+                { name: "فوقية", price: 80 },
+                { name: "دراعية", price: 60 },
+                { name: "جابدور", price: 100 },
+                { name: "سيرڤيت", price: 40 },
+                { name: "جاكيط", price: 150 },
+                { name: "كابيشون", price: 120 },
+                { name: "سلهام", price: 110 },
+                { name: "ديباردور", price: 130 },
+                { name: "شورط", price: 50 },
+                { name: "بانتاكور", price: 80 },
+                { name: "گالصون", price: 60 },
+                { name: "ڤيست", price: 90 },
+                { name: "كومبلي", price: 200 },
+                { name: "كرافاطا", price: 25 },
+                { name: "تقاشر", price: 35 },
+                { name: "سروال", price: 75 }
+            ],
+            "نساء": [
+                { name: "قميجة", price: 60 },
+                { name: "ڤيست نساء", price: 100 },
+                { name: "كومبلي نساء", price: 250 },
+                { name: "جلابية نساء", price: 120 },
+                { name: "ملحفة", price: 80 },
+                { name: "صاك", price: 50 },
+                { name: "قفطان", price: 150 },
+                { name: "تكشيطة", price: 180 },
+                { name: "تقاشر", price: 40 },
+                { name: "ملابس داخلية نسائية", price: 30 },
+                { name: "سبرديلة نساء ورجال", price: 40 }
+            ],
+            "أطفال": [
+                { name: "قميجة", price: 40 },
+                { name: "تيشرت", price: 20 },
+                { name: "تريكو", price: 60 },
+                { name: "جلالة", price: 70 },
+                { name: "فوقية", price: 50 },
+                { name: "دراعية", price: 40 },
+                { name: "جابدور", price: 90 },
+                { name: "سيرڤيت", price: 30 },
+                { name: "جاكيط", price: 100 },
+                { name: "كابيشون", price: 90 },
+                { name: "سلهام", price: 80 },
+                { name: "ديباردور", price: 110 },
+                { name: "شورط", price: 40 },
+                { name: "بانتاكور", price: 70 },
+                { name: "گالصون", price: 50 },
+                { name: "ڤيست", price: 70 },
+                { name: "كومبلي", price: 150 },
+                { name: "كرافاطا", price: 20 },
+                { name: "تقاشر", price: 30 },
+                { name: "سروال", price: 60 }
+            ],
+            "أفرشة": [
+                { name: "لحاف", price: 100 },
+                { name: "مخدة", price: 40 },
+                { name: "غطاء", price: 80 },
+                { name: "سجاد", price: 200 },
+                { name: "ستائر", price: 60 }
+            ],
+            "أحذية": [
+                { name: "حذاء رجالي", price: 150 },
+                { name: "حذاء نسائي", price: 140 },
+                { name: "حذاء أطفال", price: 100 }
+            ]
+        };
+
+        let totalAmount = 0;
+
+        function showCategory(category) {
+            const itemsDiv = document.getElementById("items");
+            itemsDiv.innerHTML = "";
+            categories[category].forEach(cloth => {
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "item";
+                itemDiv.innerHTML = `
+                    <p>${cloth.name}</p>
+                    <p>السعر: ${cloth.price} درهم</p>
+                    <button onclick="addCloth({name: '${cloth.name}', price: ${cloth.price}})">إضافة</button>
+                `;
+                itemsDiv.appendChild(itemDiv);
+            });
+        }
+
+        function addCloth(cloth) {
+            totalAmount += cloth.price;
+            document.getElementById('totalAmount').textContent = `المجموع: ${totalAmount} درهم`;
+        }
+
+        function saveClothes() {
+            alert("تم حفظ الملابس بنجاح!");
+            // هنا يمكن إضافة الكود لحفظ البيانات في localStorage أو قاعدة بيانات.
+        }
+
+        window.onload = function() {
+            showCategory('رجال');
+        };
+    </script>
+</body>
+  </html>
