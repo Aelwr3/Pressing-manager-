@@ -6,39 +6,41 @@
     <title>اختيار الملابس</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f9f9f9;
             text-align: center;
             margin: 0;
             padding: 0;
             direction: rtl;
+            color: #333;
         }
 
         header {
             background-color: #0066cc;
             color: white;
-            padding: 30px;
-            font-size: 28px;
+            padding: 40px;
+            font-size: 30px;
+            font-weight: bold;
             letter-spacing: 1px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
         }
 
         .categories {
-            margin: 20px 0;
+            margin: 30px 0;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .category {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 14px 24px;
             font-size: 18px;
-            margin: 5px;
+            font-weight: bold;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 8px;
             transition: background-color 0.3s ease;
         }
 
@@ -57,18 +59,18 @@
         .item {
             background-color: #ffffff;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            width: 180px;
+            border-radius: 12px;
+            width: 200px;
             padding: 15px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
         }
 
         .item:hover {
             transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         .item img {
@@ -132,17 +134,32 @@
         .save-button {
             background-color: #4CAF50;
             color: white;
-            padding: 12px 20px;
+            padding: 12px 24px;
             font-size: 18px;
             margin-top: 20px;
             border: none;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: background-color 0.3s ease;
         }
 
         .save-button:hover {
             background-color: #45a049;
+        }
+
+        .edit-price {
+            background-color: #ffa500;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-price:hover {
+            background-color: #ff7f00;
         }
     </style>
 </head>
@@ -245,60 +262,4 @@
             const itemPrice = document.createElement("div");
             itemPrice.textContent = `ثمن: ${item.price} درهم`;
 
-            const quantityInput = document.createElement("input");
-            quantityInput.type = "number";
-            quantityInput.min = "1";
-            quantityInput.value = "1";
-
-            const addButton = document.createElement("button");
-            addButton.textContent = "إضافة";
-            addButton.onclick = function() {
-                addItem(item, quantityInput.value);
-            };
-
-            itemElement.appendChild(itemName);
-            itemElement.appendChild(itemPrice);
-            itemElement.appendChild(quantityInput);
-            itemElement.appendChild(addButton);
-            itemsContainer.appendChild(itemElement);
-        });
-    }
-
-    // وظيفة لإضافة عنصر للملابس المختارة
-    function addItem(item, quantity) {
-        quantity = parseInt(quantity);
-        const selectedItem = { ...item, quantity };
-
-        const existingItemIndex = selectedItems.findIndex(
-            selected => selected.name === item.name
-        );
-
-        if (existingItemIndex !== -1) {
-            selectedItems[existingItemIndex].quantity += quantity;
-        } else {
-            selectedItems.push(selectedItem);
-        }
-
-        updateTotal();
-    }
-
-    // وظيفة لحساب المجموع
-    function updateTotal() {
-        let total = 0;
-        selectedItems.forEach(item => {
-            total += item.price * item.quantity;
-        });
-
-        document.getElementById("totalAmount").textContent = `المجموع: ${total} درهم 🏷️`;
-    }
-
-    // حفظ الملابس المختارة
-    function saveClothes() {
-        alert("تم حفظ الملابس بنجاح.");
-        selectedItems = [];
-        updateTotal();
-    }
-</script>
-
-</body>
-</html>
+            const itemDetails = document.createElement("div");
