@@ -63,6 +63,26 @@
             </section>
         </section>
     </main>
-    <script src="customer-management.js"></script>
+    <script>
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        function showCategories() {
+            const customerName = document.getElementById('customer-name').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+            if (customerName && customerPhone) {
+                localStorage.setItem('customerName', customerName);
+                localStorage.setItem('customerPhone', customerPhone);
+                showPage('categories');
+            } else {
+                alert('الرجاء إدخال جميع تفاصيل الزبون');
+            }
+        }
+    </script>
 </body>
 </html>
