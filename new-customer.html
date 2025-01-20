@@ -74,6 +74,11 @@
             font-size: 50px;
             margin-bottom: 20px;
         }
+
+        .select-customer-btn {
+            background-color: #4caf50;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -86,9 +91,13 @@
             <input type="text" id="customerAddress" placeholder="العنوان" required>
             <button type="submit">إضافة الزبون</button>
         </form>
+
+        <!-- زر اختيار الزبون الموجود -->
+        <button class="select-customer-btn" onclick="selectExistingCustomer()">اختيار زبون موجود</button>
     </div>
 
     <script>
+        // حفظ بيانات الزبون في LocalStorage
         document.getElementById("customerForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
@@ -97,13 +106,47 @@
             let customerAddress = document.getElementById("customerAddress").value;
 
             // حفظ بيانات الزبون في LocalStorage
-            localStorage.setItem("customerName", customerName);
-            localStorage.setItem("customerPhone", customerPhone);
-            localStorage.setItem("customerAddress", customerAddress);
+            let customer = {
+                name: customerName,
+                phone: customerPhone,
+                address: customerAddress
+            };
+
+            // التحقق من وجود بيانات سابقة للزبائن في الـlocalStorage وإضافة الزبون الجديد إليها
+            let customers = JSON.parse(localStorage.getItem("customers")) || [];
+            customers.push(customer);
+            localStorage.setItem("customers", JSON.stringify(customers));
 
             // الانتقال إلى الصفحة التالية
             window.location.href = "clothes-selection.html";
         });
+
+        // دالة لاختيار زبون موجود
+        function selectExistingCustomer() {
+            // استرجاع بيانات الزبائن من الـlocalStorage
+            let customers = JSON.parse(localStorage.getItem("customers"));
+
+            if (customers && customers.length > 0) {
+                // إظهار قائمة الزبائن لاختيار واحد
+                let customerNames = customers.map(customer => customer.name).join(", ");
+                let selectedCustomer = prompt("اختر الزبون من القائمة: \n" + customerNames);
+
+                if (selectedCustomer) {
+                    // التحقق من وجود الزبون المختار
+                    let customer = customers.find(c => c.name === selectedCustomer);
+                    if (customer) {
+                        alert(`تم اختيار الزبون: ${customer.name}`);
+                        // حفظ البيانات في LocalStorage للانتقال إلى الصفحة التالية
+                        localStorage.setItem("selectedCustomer", JSON.stringify(customer));
+                        window.location.href = "clothes-selection.html";
+                    } else {
+                        alert("الزبون غير موجود.");
+                    }
+                }
+            } else {
+                alert("لا يوجد زبائن مسجلين.");
+            }
+        }
     </script>
 </body>
-</html> 
+</html>
