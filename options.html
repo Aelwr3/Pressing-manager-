@@ -1,52 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختيار الزبون</title>
     <style>
+        /* الخطوط والتصميم */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f9fc;
+            font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        header {
-            text-align: center;
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
             color: white;
-            padding: 20px;
-            font-size: 1.8rem;
-        }
-        .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            overflow: hidden;
         }
+
+        header {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        header::after {
+            content: "💦";
+            position: absolute;
+            right: -30px;
+            top: 0;
+            animation: float 2s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
         .btn {
-            display: block;
-            background-color: #007bff;
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 15px 30px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
             text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 1.2rem;
-            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
+            position: relative;
         }
+
         .btn:hover {
-            background-color: #0056b3;
+            background: white;
+            color: #3498db;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn i {
+            margin-left: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <header>مرحبا بك في مصبنة مشاء الله</header>
+    <header>💦 مصبنة مشاء الله 💦</header>
     <div class="container">
-        <a href="new-customer.html" class="btn">إدخال زبون جديد</a>
-        <a href="customer-list.html" class="btn">اختيار زبون موجود</a>
+        <button class="btn" onclick="window.location.href='new-customer.html'">
+            <i>🆕</i> إدخال زبون جديد
+        </button>
+        <button class="btn" onclick="window.location.href='customer-list.html'">
+            <i>📋</i> اختيار زبون موجود
+        </button>
     </div>
+    <footer>
+        © 2025 مصبنة مشاء الله - جميع الحقوق محفوظة
+    </footer>
 </body>
 </html>
