@@ -135,6 +135,46 @@
         .save-button:hover {
             background-color: #218838;
         }
+
+        .selected-items-list {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .selected-items-list h3 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .item-in-list {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .item-in-list span {
+            flex: 1;
+        }
+
+        .item-in-list button {
+            background-color: #ffc107;
+            color: white;
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .item-in-list button:hover {
+            background-color: #e0a800;
+        }
     </style>
 </head>
 <body>
@@ -153,6 +193,13 @@
 
 <div class="items" id="items">
     <!-- سيتم عرض العناصر هنا -->
+</div>
+
+<div class="selected-items-list" id="selectedItemsList">
+    <h3>الملابس التي اخترتها:</h3>
+    <div id="selectedItems">
+        <!-- سيتم عرض الملابس المختارة هنا -->
+    </div>
 </div>
 
 <div class="total" id="totalAmount">المجموع: 0 درهم 🏷️</div>
@@ -221,54 +268,22 @@
             const itemDetails = document.createElement("div");
             itemDetails.classList.add("item-details");
 
-            const priceInput = document.createElement("input");
-            priceInput.type = "number";
-            priceInput.value = item.price;
-            priceInput.onchange = function() {
-                item.price = parseInt(priceInput.value);
-                updateTotal();
+            const addButton = document.createElement("button");
+            addButton.textContent = "إضافة إلى السلة";
+            addButton.onclick = function() {
+                addItemToList(item);
             };
 
-            const editPriceButton = document.createElement("button");
-            editPriceButton.textContent = "تعديل الثمن";
-            editPriceButton.onclick = function() {
-                item.price = parseInt(priceInput.value);
-                updateTotal();
-            };
-
-            const removeButton = document.createElement("button");
-            removeButton.classList.add("remove-item");
-            removeButton.textContent = "حذف";
-            removeButton.onclick = function() {
-                selectedItems.splice(selectedItems.indexOf(item), 1);
-                updateTotal();
-                showCategory(category);
-            };
-
-            itemDetails.appendChild(priceInput);
-            itemDetails.appendChild(editPriceButton);
-            itemDetails.appendChild(removeButton);
-
+            itemDetails.appendChild(addButton);
             itemElement.appendChild(itemName);
             itemElement.appendChild(itemPrice);
             itemElement.appendChild(itemDetails);
             itemsContainer.appendChild(itemElement);
-
-            selectedItems.push(item);
         });
+    }
 
+    function addItemToList(item) {
+        selectedItems.push(item);
+        updateSelectedItems();
         updateTotal();
     }
-
-    function updateTotal() {
-        const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById("totalAmount").textContent = `المجموع: ${total} درهم 🏷️`;
-    }
-
-    function saveClothes() {
-        alert("تم حفظ الملابس بنجاح!");
-    }
-</script>
-
-</body>
-</html>
