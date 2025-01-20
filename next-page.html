@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل الزبون</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            animation: backgroundChange 6s infinite alternate;
+            overflow: hidden;
+        }
+
+        @keyframes backgroundChange {
+            0% { background: linear-gradient(to bottom right, #6a11cb, #2575fc); }
+            100% { background: linear-gradient(to bottom right, #3a1c71, #d76d77, #ffaf7b); }
+        }
+
+        .container {
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 50px auto;
+            max-width: 400px;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .customer-info {
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: fadeIn 2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .customer-info span {
+            font-size: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: #6a11cb;
+        }
+
+        button:active {
+            transform: scale(1);
+        }
+
+        .delete-btn {
+            background-color: #ff4b5c;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff1c2e;
+        }
+
+        .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            background-color: #ffaf7b;
+        }
+
+        .back-btn:hover {
+            background-color: #d76d77;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .popup input {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .popup button {
+            margin-top: 10px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">📋</div>
+        <h1>تفاصيل الزبون</h1>
+        <div class="customer-info">
+            <span id="customerName"></span>
+            <button class="delete-btn" onclick="deleteCustomer()">❌ حذف</button>
+        </div>
+        <div class="buttons">
+            <button onclick="openEditPopup()">✏️ تعديل</button>
+            <button onclick="goBack()" class="back-btn">🔙 رجوع</button>
+            <button onclick="complete()" class="complete-btn">✅ إتمام</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="popup" id="editPopup">
+        <p>تعديل اسم الزبون:</p>
+        <input type="text" id="editNameInput" placeholder="أدخل الاسم الجديد">
+        <button onclick="saveEdit()">حفظ</button>
+        <button onclick="closePopup()">إلغاء</button>
+    </div>
+
+    <script>
+        const customerNameElement = document.getElementById('customerName');
+        const overlay = document.getElementById('overlay');
+        const editPopup = document.getElementById('editPopup');
+        const editNameInput = document.getElementById('editNameInput');
+
+        // جلب اسم الزبون من التخزين المحلي
+        const customerName = localStorage.getItem('selectedCustomer');
+        if (customerName) {
+            customerNameElement.textContent = customerName;
+        } else {
+            customerNameElement.textContent = "لم يتم اختيار زبون!";
+        }
+
+        function deleteCustomer() {
+            if (confirm('هل أنت متأكد من حذف الزبون؟')) {
+                localStorage.removeItem('selectedCustomer');
+                alert('تم حذف الزبون بنجاح!');
+                goBack();
+            }
+        }
+
+        function openEditPopup() {
+            overlay.style.display = 'block';
+            editPopup.style.display = 'block';
+            editNameInput.value = customerName || '';
+        }
+
+        function closePopup() {
+            overlay.style.display = 'none';
+            editPopup.style.display = 'none';
+        }
+
+        function saveEdit() {
+            const newName = editNameInput.value.trim();
+            if (newName) {
+                localStorage.setItem('selectedCustomer', newName);
+                customerNameElement.textContent = newName;
+                closePopup();
+                alert('تم تعديل الاسم بنجاح!');
+            } else {
+                alert('الرجاء إدخال اسم صحيح!');
+            }
+        }
+
+        function goBack() {
+            window.location.href = "customer-management.html";
+        }
+
+        function complete() {
+            alert('تمت العملية بنجاح!');
+        }
+    </script>
+</body>
+</html>
