@@ -11,35 +11,26 @@
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
+            background: linear-gradient(135deg, #1e90ff, #87cefa);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            overflow: hidden;
         }
 
         header {
-            font-size: 3rem;
+            font-size: 2.8rem;
             font-weight: bold;
-            margin-bottom: 40px;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
-            position: relative;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+            color: #ffffff;
         }
 
-        header::after {
-            content: "💦";
-            position: absolute;
-            right: -40px;
-            top: 10px;
-            animation: float 3s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        header span {
+            color: #f4d03f;
         }
 
         .container {
@@ -47,68 +38,52 @@
             flex-direction: column;
             align-items: center;
             gap: 30px;
-            width: 100%;
+            width: 90%;
             max-width: 500px;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
         .btn {
             width: 100%;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
             font-size: 1.5rem;
             font-weight: bold;
-            padding: 15px 25px;
+            padding: 15px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s, background 0.4s, box-shadow 0.4s;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
         .btn:hover {
-            background: white;
-            color: #3498db;
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            background: #f4d03f;
+            color: #1e90ff;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
 
         .btn i {
-            margin-left: 15px;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.5s;
-            z-index: 0;
-        }
-
-        .btn:hover::after {
-            transform: translate(-50%, -50%) scale(1);
+            margin-right: 10px;
+            font-size: 1.8rem;
         }
 
         footer {
             margin-top: 30px;
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.85);
+            color: #f4d03f;
+            text-align: center;
         }
 
         footer a {
-            color: white;
+            color: #f4d03f;
             text-decoration: none;
             font-weight: bold;
         }
@@ -119,17 +94,17 @@
     </style>
 </head>
 <body>
-    <header>💦 مصبنة مشاء الله 💦</header>
+    <header>مرحباً بك في <span>مصبنة مشاء الله</span></header>
     <div class="container">
         <button class="btn" onclick="window.location.href='new-customer.html'">
-            <i>🆕</i> إدخال زبون جديد
+            <i>➕</i> إدخال زبون جديد
         </button>
         <button class="btn" onclick="window.location.href='customer-list.html'">
-            <i>📋</i> اختيار زبون موجود
+            <i>📂</i> اختيار زبون موجود
         </button>
     </div>
     <footer>
-        © 2025 مصبنة مشاء الله - <a href="#">سياسة الخصوصية</a>
+        © 2025 مصبنة مشاء الله | <a href="#">سياسة الخصوصية</a>
     </footer>
 </body>
 </html>
