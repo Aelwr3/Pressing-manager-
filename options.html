@@ -3,108 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختيار الزبون</title>
+    <title>إضافة زبون جديد أو اختيار زبون</title>
     <style>
-        /* الخطوط والتصميم */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1e90ff, #87cefa);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            direction: rtl;
+            text-align: center;
         }
-
         header {
-            font-size: 2.8rem;
-            font-weight: bold;
-            margin-bottom: 50px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
             text-align: center;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
-            color: #ffffff;
         }
-
-        header span {
-            color: #f4d03f;
-        }
-
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            width: 90%;
-            max-width: 500px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 30px;
         }
-
         .btn {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-
         .btn:hover {
-            background: #f4d03f;
-            color: #1e90ff;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            background-color: #45a049;
         }
-
-        .btn i {
-            margin-right: 10px;
-            font-size: 1.8rem;
+        .form-group {
+            margin-bottom: 15px;
         }
-
-        footer {
-            margin-top: 30px;
-            font-size: 1rem;
-            color: #f4d03f;
-            text-align: center;
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-
-        footer a {
-            color: #f4d03f;
-            text-decoration: none;
-            font-weight: bold;
+        select {
+            width: 320px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
-
-        footer a:hover {
-            text-decoration: underline;
+        .customer-list {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .customer-list li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
-    <header>مرحباً بك في <span>مصبنة مشاء الله</span></header>
+
+    <header>
+        <h1>إضافة زبون جديد أو اختيار زبون موجود</h1>
+    </header>
+
     <div class="container">
-        <button class="btn" onclick="window.location.href='new-customer.html'">
-            <i>➕</i> إدخال زبون جديد
-        </button>
-        <button class="btn" onclick="window.location.href='customer-list.html'">
-            <i>📂</i> اختيار زبون موجود
-        </button>
+        <button class="btn" id="newCustomerBtn">إضافة زبون جديد</button>
+        <button class="btn" id="chooseCustomerBtn">اختيار زبون موجود</button>
+        
+        <div id="newCustomerForm" style="display:none;">
+            <h3>إضافة زبون جديد</h3>
+            <div class="form-group">
+                <label for="customerName">اسم الزبون:</label>
+                <input type="text" id="customerName" placeholder="أدخل اسم الزبون">
+            </div>
+            <div class="form-group">
+                <label for="customerPhone">رقم الهاتف:</label>
+                <input type="text" id="customerPhone" placeholder="أدخل رقم الهاتف">
+            </div>
+            <button class="btn" id="saveCustomerBtn">حفظ الزبون</button>
+        </div>
+
+        <div id="customerList" style="display:none;">
+            <h3>الزبائن المسجلين</h3>
+            <ul class="customer-list" id="customerListItems">
+                <!-- الزبائن الذين سيتم عرضهم هنا -->
+            </ul>
+            <button class="btn" id="selectCustomerBtn">اختيار الزبون</button>
+        </div>
     </div>
-    <footer>
-        © 2025 مصبنة مشاء الله | <a href="#">سياسة الخصوصية</a>
-    </footer>
+
+    <script>
+        // عرض نموذج إضافة الزبون الجديد
+        document.getElementById('newCustomerBtn').addEventListener('click', function() {
+            document.getElementById('newCustomerForm').style.display = 'block';
+            document.getElementById('customerList').style.display = 'none';
+        });
+
+        // عرض قائمة الزبائن الحاليين
+        document.getElementById('chooseCustomerBtn').addEventListener('click', function() {
+            document.getElementById('customerList').style.display = 'block';
+            document.getElementById('newCustomerForm').style.display = 'none';
+            loadCustomerList();
+        });
+
+        // حفظ الزبون في localStorage
+        document.getElementById('saveCustomerBtn').addEventListener('click', function() {
+            var customerName = document.getElementById('customerName').value;
+            var customerPhone = document.getElementById('customerPhone').value;
+
+            if (customerName && customerPhone) {
+                var customers = JSON.parse(localStorage.getItem('customers')) || [];
+                var newCustomer = { name: customerName, phone: customerPhone };
+                customers.push(newCustomer);
+                localStorage.setItem('customers', JSON.stringify(customers));
+
+                alert('تم حفظ الزبون بنجاح!');
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerPhone').value = '';
+            } else {
+                alert('الرجاء إدخال جميع البيانات');
+            }
+        });
+
+        // تحميل قائمة الزبائن من localStorage
+        function loadCustomerList() {
+            var customers = JSON.parse(localStorage.getItem('customers')) || [];
+            var customerListItems = document.getElementById('customerListItems');
+            customerListItems.innerHTML = '';
+
+            customers.forEach(function(customer, index) {
+                var li = document.createElement('li');
+                li.textContent = customer.name + ' - ' + customer.phone;
+                customerListItems.appendChild(li);
+            });
+        }
+
+        // اختيار الزبون من القائمة
+        document.getElementById('selectCustomerBtn').addEventListener('click', function() {
+            var customers = JSON.parse(localStorage.getItem('customers')) || [];
+            if (customers.length > 0) {
+                var selectedCustomer = customers[0];  // يمكن اختيار الزبون من خلال واجهة خاصة
+                alert('تم اختيار الزبون: ' + selectedCustomer.name);
+            } else {
+                alert('لا يوجد زبائن مسجلين');
+            }
+        });
+    </script>
+
 </body>
 </html>
