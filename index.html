@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مصبنة مشاء الله</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #FFD700, #FF8C00);
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: backgroundAnimation 6s infinite alternate;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background: linear-gradient(to bottom right, #FFD700, #FF8C00); }
+            100% { background: linear-gradient(to bottom right, #FF4500, #FF6347); }
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #FFA500;
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: #ff5722;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 مصبنة مشاء الله 🌟</h1>
+        <p>أدخل الكود للمتابعة:</p>
+        <input type="password" id="accessCode" placeholder="أدخل الكود هنا">
+        <button onclick="validateCode()">متابعة</button>
+        <p id="errorMessage" class="error"></p>
+    </div>
+
+    <script>
+        const correctCode = "202501";
+
+        function validateCode() {
+            const enteredCode = document.getElementById("accessCode").value;
+            const errorMessage = document.getElementById("errorMessage");
+
+            if (enteredCode === correctCode) {
+                // الانتقال إلى الصفحة التالية
+                window.location.href = "options.html"; // الصفحة التالية
+            } else {
+                // عرض رسالة خطأ
+                errorMessage.textContent = "الكود غير صحيح. حاول مرة أخرى!";
+            }
+        }
+    </script>
+</body>
+</html>
